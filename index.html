@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quiz Application</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="quiz-header">
+            <h1><i class="fas fa-question-circle"></i> Interactive Quiz</h1>
+            <p class="subtitle">Test your knowledge with our comprehensive quiz</p>
+        </header>
+
+        <!-- Quiz Instructions -->
+        <div id="instructions" class="instructions-section">
+            <div class="instructions-card">
+                <h2><i class="fas fa-info-circle"></i> Instructions</h2>
+                <ul>
+                    <li>This quiz contains 10 multiple-choice questions</li>
+                    <li>Select one answer for each question</li>
+                    <li>You must answer all questions before submitting</li>
+                    <li>Your score will be displayed at the end</li>
+                    <li>Click "Start Quiz" when you're ready to begin</li>
+                </ul>
+                <button id="startBtn" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start Quiz
+                </button>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quizContainer" class="quiz-container hidden">
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <div class="question-counter">
+                <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span>
+            </div>
+            
+            <form id="quizForm">
+                <div id="questionsContainer"></div>
+                
+                <div class="form-actions">
+                    <button type="button" id="prevBtn" class="btn btn-secondary hidden">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" id="nextBtn" class="btn btn-primary hidden">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button type="submit" id="submitBtn" class="btn btn-success hidden">
+                        <i class="fas fa-check"></i> Submit Quiz
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsContainer" class="results-container hidden">
+            <div class="results-card">
+                <h2><i class="fas fa-trophy"></i> Quiz Results</h2>
+                <div class="score-display">
+                    <div class="score-circle">
+                        <span id="scoreText">0/5</span>
+                    </div>
+                    <div class="score-percentage">
+                        <span id="percentageText">0%</span>
+                    </div>
+                </div>
+                <div id="performanceFeedback" class="performance-feedback"></div>
+                
+                <div class="detailed-results">
+                    <h3><i class="fas fa-list"></i> Detailed Results</h3>
+                    <div id="answerReview"></div>
+                </div>
+                
+                <button id="restartBtn" class="btn btn-primary">
+                    <i class="fas fa-redo"></i> Take Quiz Again
+                </button>
+            </div>
+        </div>
+
+        <!-- Validation Message -->
+        <div id="validationMessage" class="validation-message hidden">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span id="validationText"></span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
