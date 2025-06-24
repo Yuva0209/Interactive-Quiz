@@ -5,88 +5,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Quiz Application</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
+    <div class="app-container">
+        <!-- Header Section -->
         <header class="quiz-header">
-            <h1><i class="fas fa-question-circle"></i> EuroQuest </h1>
-            <p class="subtitle">Test your knowledge with our comprehensive quiz</p>
+            <div class="header-content">
+                <i class="fas fa-brain header-icon"></i>
+                <h1 class="quiz-title">Interactive Knowledge Quiz</h1>
+                <p class="quiz-subtitle">Test your knowledge with our engaging quiz experience</p>
+            </div>
         </header>
 
-        <!-- Quiz Instructions -->
-        <div id="instructions" class="instructions-section">
-            <div class="instructions-card">
-                <h2><i class="fas fa-info-circle"></i> Instructions</h2>
-                <ul>
-                    <li>This quiz contains 10 multiple-choice questions</li>
-                    <li>Select one answer for each question</li>
-                    <li>You must answer all questions before submitting</li>
-                    <li>Your score will be displayed at the end</li>
-                    <li>Click "Start Quiz" when you're ready to begin</li>
-                </ul>
-                <button id="startBtn" class="btn btn-primary">
-                    <i class="fas fa-play"></i> Start Quiz
-                </button>
-            </div>
-        </div>
-
-        <!-- Quiz Section -->
-        <div id="quizContainer" class="quiz-container hidden">
-            <div class="progress-bar">
-                <div id="progressFill" class="progress-fill"></div>
-            </div>
-            <div class="question-counter">
-                <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span>
-            </div>
-            
-            <form id="quizForm">
-                <div id="questionsContainer"></div>
-                
-                <div class="form-actions">
-                    <button type="button" id="prevBtn" class="btn btn-secondary hidden">
-                        <i class="fas fa-arrow-left"></i> Previous
-                    </button>
-                    <button type="button" id="nextBtn" class="btn btn-primary hidden">
-                        Next <i class="fas fa-arrow-right"></i>
-                    </button>
-                    <button type="submit" id="submitBtn" class="btn btn-success hidden">
-                        <i class="fas fa-check"></i> Submit Quiz
+        <!-- Main Quiz Container -->
+        <main class="quiz-main">
+            <!-- Welcome Screen -->
+            <div class="welcome-screen active" id="welcomeScreen">
+                <div class="welcome-content">
+                    <div class="welcome-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h2>Ready to Begin?</h2>
+                    <p>This quiz contains <span class="question-count">5</span> multiple-choice questions.</p>
+                    <p>Take your time and choose the best answer for each question.</p>
+                    <button class="start-btn" id="startQuiz">
+                        <i class="fas fa-play"></i>
+                        Start Quiz
                     </button>
                 </div>
-            </form>
-        </div>
+            </div>
 
-        <!-- Results Section -->
-        <div id="resultsContainer" class="results-container hidden">
-            <div class="results-card">
-                <h2><i class="fas fa-trophy"></i> Quiz Results</h2>
-                <div class="score-display">
-                    <div class="score-circle">
-                        <span id="scoreText">0/5</span>
+            <!-- Quiz Screen -->
+            <div class="quiz-screen" id="quizScreen">
+                <div class="quiz-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
                     </div>
-                    <div class="score-percentage">
-                        <span id="percentageText">0%</span>
+                    <span class="progress-text" id="progressText">Question 1 of 5</span>
+                </div>
+
+                <div class="question-container" id="questionContainer">
+                    <div class="question-card">
+                        <div class="question-number" id="questionNumber">01</div>
+                        <h3 class="question-text" id="questionText">Loading question...</h3>
+                        
+                        <div class="answers-container" id="answersContainer">
+                            <!-- Dynamic answer options will be inserted here -->
+                        </div>
+
+                        <div class="question-actions">
+                            <button class="prev-btn" id="prevBtn" disabled>
+                                <i class="fas fa-arrow-left"></i>
+                                Previous
+                            </button>
+                            <button class="next-btn" id="nextBtn" disabled>
+                                Next
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div id="performanceFeedback" class="performance-feedback"></div>
-                
-                <div class="detailed-results">
-                    <h3><i class="fas fa-list"></i> Detailed Results</h3>
-                    <div id="answerReview"></div>
-                </div>
-                
-                <button id="restartBtn" class="btn btn-primary">
-                    <i class="fas fa-redo"></i> Take Quiz Again
-                </button>
             </div>
-        </div>
 
-        <!-- Validation Message -->
-        <div id="validationMessage" class="validation-message hidden">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span id="validationText"></span>
-        </div>
+            <!-- Results Screen -->
+            <div class="results-screen" id="resultsScreen">
+                <div class="results-content">
+                    <div class="results-icon" id="resultsIcon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h2 class="results-title" id="resultsTitle">Quiz Complete!</h2>
+                    <div class="score-display">
+                        <div class="score-circle">
+                            <div class="score-text" id="scoreText">0/5</div>
+                            <div class="score-percentage" id="scorePercentage">0%</div>
+                        </div>
+                    </div>
+                    <p class="results-message" id="resultsMessage">Great effort! Here's how you performed.</p>
+                    
+                    <!-- Score breakdown -->
+                    <div class="score-breakdown" id="scoreBreakdown">
+                        <!-- Dynamic score details will be inserted here -->
+                    </div>
+
+                    <div class="results-actions">
+                        <button class="restart-btn" id="restartBtn">
+                            <i class="fas fa-redo"></i>
+                            Take Quiz Again
+                        </button>
+                        <button class="review-btn" id="reviewBtn">
+                            <i class="fas fa-eye"></i>
+                            Review Answers
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Screen -->
+            <div class="review-screen" id="reviewScreen">
+                <div class="review-content">
+                    <h2>Review Your Answers</h2>
+                    <div class="review-questions" id="reviewQuestions">
+                        <!-- Dynamic review content will be inserted here -->
+                    </div>
+                    <button class="back-to-results-btn" id="backToResultsBtn">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Results
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="quiz-footer">
+            <p>&copy; 2025 Interactive Quiz App. Built with modern web technologies.</p>
+        </footer>
     </div>
 
     <script src="script.js"></script>
