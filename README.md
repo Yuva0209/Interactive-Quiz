@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a web-based interactive quiz application built with vanilla HTML, CSS, and JavaScript. The application features a modern, responsive design with gradient styling, smooth transitions, and an engaging user experience. The quiz system is designed to be easily extensible with dynamic question loading and comprehensive result tracking.
+This is a web-based interactive quiz application built with HTML, CSS, and JavaScript. The application features a modern, responsive design with gradient styling, smooth transitions, and an engaging user experience. The quiz system is designed to be easily extensible with dynamic question loading and comprehensive result tracking.
 
 ## System Architecture
 
