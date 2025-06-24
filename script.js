@@ -1,522 +1,579 @@
-// Quiz Data Structure
-const quizData = [
-    {
-        id: 1,
-        question: "What is the capital of France?",
-        options: [
-            "London",
-            "Berlin",
-            "Paris",
-            "Madrid"
-        ],
-        correctAnswer: 2,
-        explanation: "Paris is the capital and most populous city of France."
-    },
-    {
-        id: 2,
-        question: "Which planet is known as the Red Planet?",
-        options: [
-            "Venus",
-            "Mars",
-            "Jupiter",
-            "Saturn"
-        ],
-        correctAnswer: 1,
-        explanation: "Mars is called the Red Planet due to its reddish appearance caused by iron oxide on its surface."
-    },
-    {
-        id: 3,
-        question: "What is the largest ocean on Earth?",
-        options: [
-            "Atlantic Ocean",
-            "Indian Ocean",
-            "Arctic Ocean",
-            "Pacific Ocean"
-        ],
-        correctAnswer: 3,
-        explanation: "The Pacific Ocean is the largest and deepest ocean basin on Earth, covering about 63 million square miles."
-    },
-    {
-        id: 4,
-        question: "Who painted the famous artwork 'The Starry Night'?",
-        options: [
-            "Leonardo da Vinci",
-            "Pablo Picasso",
-            "Vincent van Gogh",
-            "Claude Monet"
-        ],
-        correctAnswer: 2,
-        explanation: "Vincent van Gogh painted 'The Starry Night' in 1889 while he was a patient at an asylum in France."
-    },
-    {
-        id: 5,
-        question: "What is the chemical symbol for gold?",
-        options: [
-            "Go",
-            "Au",
-            "Ag",
-            "Gd"
-        ],
-        correctAnswer: 1,
-        explanation: "Au is the chemical symbol for gold, derived from the Latin word 'aurum' meaning gold."
-    },
-	{
-        id: 6,
-        question: "Who painted the Mona Lisa?",
-        options: [
-            "Vincent van Gogh",
-            " Pablo Picasso",
-            "Leonardo da Vinci",
-            "Michelangelo"
-        ],
-        correctAnswer: 1,
-        explanation: "The Mona Lisa painting is one of the most emblematic portraits in the history of art, where is located at the Louvre. Painted by Leonardo da Vinci in the 16th century."
-    },
-	{
-        id: 7,
-        question: "Which river flows through the city of Paris?",
-        options: [
-           "Thames",
-            "Seine",
-            "Danube",
-            "Rhine"
-        ],
-        correctAnswer: 1,
-        explanation: "The Seine River runs through Paris and is famous for its beautiful bridges and riverside scenery."
-    },
-	{
-        id: 8,
-        question: "Which country is famous for inventing Pizza?",
-        options: [
-            "France",
-            "Italy",
-            "Spain",
-            "Germany"
-        ],
-        correctAnswer: 1,
-        explanation: "Pizza originated in Naples, Italy, and is one of the most iconic Italian dishes."
-    },
-	{
-        id: 9,
-        question: "Which European city is known as the 'City of Canals'?",
-        options: [
-            "Venice",
-            "Amsterdam",
-            "Bruges",
-            "Copenhagen"
-        ],
-        correctAnswer: 1,
-        explanation: "Amsterdam, Italy, is famous for its canals, gongolas, and bridges."
-    },
-	{
-        id: 10,
-        question: "Which mountain range separeates Europe from Asia?",
-        options: [
-            "Alps",
-            "Carpathians",
-            "Pyrenees",
-            "Ural Mountains"
-        ],
-        correctAnswer: 1,
-        explanation: "Carpathians form part of the traditional boundary between the Europe and Asia."
-    }
-];
 
-// Quiz Application Class
+/**
+ * Interactive Quiz Application
+ * Features: Dynamic question handling, gradient styling, transition effects
+ */
+
 class QuizApp {
     constructor() {
+        // Quiz configuration
         this.currentQuestionIndex = 0;
         this.userAnswers = [];
         this.score = 0;
-        this.isQuizStarted = false;
-        this.isQuizCompleted = false;
+        this.totalQuestions = 0;
         
-        this.initializeElements();
+        // DOM elements
+        this.welcomeScreen = document.getElementById('welcomeScreen');
+        this.quizScreen = document.getElementById('quizScreen');
+        this.resultsScreen = document.getElementById('resultsScreen');
+        this.reviewScreen = document.getElementById('reviewScreen');
+        
+        // Question bank - Dynamic array of quiz questions
+        this.questions = [
+            {
+                id: 1,
+                question: "What is the primary purpose of the 'viewport' meta tag in HTML?",
+                options: [
+                    "To set the character encoding",
+                    "To control the page's dimensions and scaling on different devices",
+                    "To define the page title",
+                    "To link external stylesheets"
+                ],
+                correct: 1,
+                explanation: "The viewport meta tag controls how the page is displayed on mobile devices and different screen sizes."
+            },
+            {
+                id: 2,
+                question: "Which CSS property is used to create smooth transitions between different states?",
+                options: [
+                    "animation",
+                    "transform",
+                    "transition",
+                    "keyframes"
+                ],
+                correct: 2,
+                explanation: "The 'transition' property allows you to define smooth changes between different CSS property values."
+            },
+            {
+                id: 3,
+                question: "What is the purpose of the 'addEventListener' method in JavaScript?",
+                options: [
+                    "To create new HTML elements",
+                    "To modify CSS styles",
+                    "To attach event handlers to elements",
+                    "To validate form data"
+                ],
+                correct: 2,
+                explanation: "addEventListener is used to attach event handlers to DOM elements for user interactions."
+            },
+            {
+                id: 4,
+                question: "Which CSS technique is best for creating responsive layouts?",
+                options: [
+                    "Fixed positioning",
+                    "Table layouts",
+                    "CSS Grid and Flexbox",
+                    "Inline styles"
+                ],
+                correct: 2,
+                explanation: "CSS Grid and Flexbox provide powerful, flexible tools for creating responsive layouts."
+            },
+            {
+                id: 5,
+                question: "What is the correct way to check if a variable is an array in JavaScript?",
+                options: [
+                    "typeof variable === 'array'",
+                    "Array.isArray(variable)",
+                    "variable instanceof Array",
+                    "Both B and C are correct"
+                ],
+                correct: 3,
+                explanation: "Both Array.isArray() and instanceof Array can be used to check if a variable is an array, though Array.isArray() is preferred."
+            }
+        ];
+        
+        this.totalQuestions = this.questions.length;
+        this.init();
+    }
+
+    /**
+     * Initialize the quiz application
+     */
+    init() {
         this.bindEvents();
-        this.showInstructions();
+        this.updateQuestionCount();
+        this.showWelcomeScreen();
     }
-    
-    // Initialize DOM elements
-    initializeElements() {
-        this.elements = {
-            instructions: document.getElementById('instructions'),
-            quizContainer: document.getElementById('quizContainer'),
-            resultsContainer: document.getElementById('resultsContainer'),
-            questionsContainer: document.getElementById('questionsContainer'),
-            quizForm: document.getElementById('quizForm'),
-            startBtn: document.getElementById('startBtn'),
-            prevBtn: document.getElementById('prevBtn'),
-            nextBtn: document.getElementById('nextBtn'),
-            submitBtn: document.getElementById('submitBtn'),
-            restartBtn: document.getElementById('restartBtn'),
-            currentQuestion: document.getElementById('currentQuestion'),
-            totalQuestions: document.getElementById('totalQuestions'),
-            progressFill: document.getElementById('progressFill'),
-            scoreText: document.getElementById('scoreText'),
-            percentageText: document.getElementById('percentageText'),
-            performanceFeedback: document.getElementById('performanceFeedback'),
-            answerReview: document.getElementById('answerReview'),
-            validationMessage: document.getElementById('validationMessage'),
-            validationText: document.getElementById('validationText')
-        };
-    }
-    
-    // Bind event listeners
+
+    /**
+     * Bind event listeners to interactive elements
+     */
     bindEvents() {
-        this.elements.startBtn.addEventListener('click', () => this.startQuiz());
-        this.elements.prevBtn.addEventListener('click', () => this.previousQuestion());
-        this.elements.nextBtn.addEventListener('click', () => this.nextQuestion());
-        this.elements.submitBtn.addEventListener('click', (e) => this.submitQuiz(e));
-        this.elements.restartBtn.addEventListener('click', () => this.restartQuiz());
-        this.elements.quizForm.addEventListener('submit', (e) => this.submitQuiz(e));
-        
-        // Add event listeners for option selection
-        document.addEventListener('change', (e) => {
-            if (e.target.type === 'radio' && e.target.name.startsWith('question')) {
-                this.handleAnswerSelection(e);
-            }
+        // Start quiz button
+        document.getElementById('startQuiz').addEventListener('click', () => {
+            this.startQuiz();
+        });
+
+        // Navigation buttons
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            this.nextQuestion();
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            this.previousQuestion();
+        });
+
+        // Results screen buttons
+        document.getElementById('restartBtn').addEventListener('click', () => {
+            this.restartQuiz();
+        });
+
+        document.getElementById('reviewBtn').addEventListener('click', () => {
+            this.showReviewScreen();
+        });
+
+        document.getElementById('backToResultsBtn').addEventListener('click', () => {
+            this.showResultsScreen();
         });
     }
-    
-    // Show instructions screen
-    showInstructions() {
-        this.elements.instructions.classList.remove('hidden');
-        this.elements.quizContainer.classList.add('hidden');
-        this.elements.resultsContainer.classList.add('hidden');
-        this.elements.totalQuestions.textContent = quizData.length;
-    }
-    
-    // Start the quiz
-    startQuiz() {
-        this.isQuizStarted = true;
-        this.currentQuestionIndex = 0;
-        this.userAnswers = new Array(quizData.length).fill(null);
-        this.score = 0;
-        
-        this.elements.instructions.classList.add('hidden');
-        this.elements.quizContainer.classList.remove('hidden');
-        this.elements.resultsContainer.classList.add('hidden');
-        
-        this.renderAllQuestions();
-        this.updateProgress();
-        this.updateNavigation();
-    }
-    
-    // Render all questions in the quiz
-    renderAllQuestions() {
-        this.elements.questionsContainer.innerHTML = '';
-        
-        quizData.forEach((questionData, index) => {
-            const questionElement = this.createQuestionElement(questionData, index);
-            this.elements.questionsContainer.appendChild(questionElement);
-        });
-    }
-    
-    // Create a single question element
-    createQuestionElement(questionData, index) {
-        const questionDiv = document.createElement('div');
-        questionDiv.className = 'question';
-        questionDiv.setAttribute('data-question', index);
-        
-        const questionTitle = document.createElement('h3');
-        questionTitle.innerHTML = `<span class="question-number">Question ${index + 1}:</span> ${questionData.question}`;
-        
-        const optionsDiv = document.createElement('div');
-        optionsDiv.className = 'options';
-        
-        questionData.options.forEach((option, optionIndex) => {
-            const optionDiv = document.createElement('div');
-            optionDiv.className = 'option';
-            
-            const radioInput = document.createElement('input');
-            radioInput.type = 'radio';
-            radioInput.id = `q${index}_option${optionIndex}`;
-            radioInput.name = `question${index}`;
-            radioInput.value = optionIndex;
-            
-            const label = document.createElement('label');
-            label.setAttribute('for', `q${index}_option${optionIndex}`);
-            label.textContent = option;
-            
-            optionDiv.appendChild(radioInput);
-            optionDiv.appendChild(label);
-            optionsDiv.appendChild(optionDiv);
-        });
-        
-        questionDiv.appendChild(questionTitle);
-        questionDiv.appendChild(optionsDiv);
-        
-        return questionDiv;
-    }
-    
-    // Handle answer selection
-    handleAnswerSelection(event) {
-        const questionIndex = parseInt(event.target.name.replace('question', ''));
-        const selectedAnswer = parseInt(event.target.value);
-        
-        this.userAnswers[questionIndex] = selectedAnswer;
-        
-        // Add visual feedback
-        const questionElement = document.querySelector(`[data-question="${questionIndex}"]`);
-        const options = questionElement.querySelectorAll('.option');
-        
-        options.forEach((option, index) => {
-            if (index === selectedAnswer) {
-                option.classList.add('selected');
-            } else {
-                option.classList.remove('selected');
-            }
-        });
-        
-        this.updateNavigation();
-    }
-    
-    // Update progress bar and question counter
-    updateProgress() {
-        const progress = ((this.currentQuestionIndex + 1) / quizData.length) * 100;
-        this.elements.progressFill.style.width = `${progress}%`;
-        this.elements.currentQuestion.textContent = this.currentQuestionIndex + 1;
-    }
-    
-    // Update navigation buttons
-    updateNavigation() {
-        const allAnswered = this.userAnswers.every(answer => answer !== null);
-        
-        // Show/hide navigation buttons
-        this.elements.prevBtn.classList.add('hidden');
-        this.elements.nextBtn.classList.add('hidden');
-        
-        if (allAnswered) {
-            this.elements.submitBtn.classList.remove('hidden');
-        } else {
-            this.elements.submitBtn.classList.add('hidden');
+
+    /**
+     * Update the question count display
+     */
+    updateQuestionCount() {
+        const questionCountElement = document.querySelector('.question-count');
+        if (questionCountElement) {
+            questionCountElement.textContent = this.totalQuestions;
         }
     }
-    
-    // Navigate to previous question
+
+    /**
+     * Show the welcome screen with animation
+     */
+    showWelcomeScreen() {
+        this.hideAllScreens();
+        setTimeout(() => {
+            this.welcomeScreen.classList.add('active');
+        }, 100);
+    }
+
+    /**
+     * Start the quiz and show first question
+     */
+    startQuiz() {
+        this.currentQuestionIndex = 0;
+        this.userAnswers = [];
+        this.score = 0;
+        
+        this.hideAllScreens();
+        setTimeout(() => {
+            this.quizScreen.classList.add('active');
+            this.displayQuestion();
+        }, 300);
+    }
+
+    /**
+     * Display the current question with animation
+     */
+    displayQuestion() {
+        const question = this.questions[this.currentQuestionIndex];
+        
+        // Update progress
+        this.updateProgress();
+        
+        // Add flip animation to question card
+        const questionCard = document.querySelector('.question-card');
+        questionCard.classList.add('flip-in');
+        
+        // Update question number
+        document.getElementById('questionNumber').textContent = 
+            String(this.currentQuestionIndex + 1).padStart(2, '0');
+        
+        // Update question text
+        document.getElementById('questionText').textContent = question.question;
+        
+        // Generate answer options
+        this.generateAnswerOptions(question);
+        
+        // Update navigation buttons
+        this.updateNavigationButtons();
+        
+        // Remove animation class after animation completes
+        setTimeout(() => {
+            questionCard.classList.remove('flip-in');
+        }, 800);
+    }
+
+    /**
+     * Generate answer options for the current question
+     */
+    generateAnswerOptions(question) {
+        const answersContainer = document.getElementById('answersContainer');
+        answersContainer.innerHTML = '';
+        
+        question.options.forEach((option, index) => {
+            const answerDiv = document.createElement('div');
+            answerDiv.className = 'answer-option';
+            answerDiv.innerHTML = `
+                <input type="radio" 
+                       id="answer_${index}" 
+                       name="question_${question.id}" 
+                       value="${index}">
+                <label for="answer_${index}">${option}</label>
+            `;
+            
+            // Add click event to the entire option div
+            answerDiv.addEventListener('click', () => {
+                this.selectAnswer(index, answerDiv);
+            });
+            
+            // Check if this option was previously selected
+            if (this.userAnswers[this.currentQuestionIndex] === index) {
+                answerDiv.classList.add('selected');
+                answerDiv.querySelector('input').checked = true;
+            }
+            
+            answersContainer.appendChild(answerDiv);
+        });
+    }
+
+    /**
+     * Handle answer selection with visual feedback
+     */
+    selectAnswer(selectedIndex, selectedDiv) {
+        // Remove selection from all options
+        document.querySelectorAll('.answer-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+        
+        // Add selection to clicked option
+        selectedDiv.classList.add('selected');
+        selectedDiv.querySelector('input').checked = true;
+        
+        // Store the answer
+        this.userAnswers[this.currentQuestionIndex] = selectedIndex;
+        
+        // Enable next button
+        document.getElementById('nextBtn').disabled = false;
+        
+        // Add selection animation
+        selectedDiv.style.transform = 'scale(1.02)';
+        setTimeout(() => {
+            selectedDiv.style.transform = '';
+        }, 200);
+    }
+
+    /**
+     * Update the progress bar and text
+     */
+    updateProgress() {
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        
+        const progressPercentage = ((this.currentQuestionIndex + 1) / this.totalQuestions) * 100;
+        progressFill.style.width = `${progressPercentage}%`;
+        progressText.textContent = `Question ${this.currentQuestionIndex + 1} of ${this.totalQuestions}`;
+    }
+
+    /**
+     * Update navigation button states
+     */
+    updateNavigationButtons() {
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        // Previous button
+        prevBtn.disabled = this.currentQuestionIndex === 0;
+        
+        // Next button
+        const hasAnswer = this.userAnswers[this.currentQuestionIndex] !== undefined;
+        nextBtn.disabled = !hasAnswer;
+        
+        // Update next button text for last question
+        if (this.currentQuestionIndex === this.totalQuestions - 1) {
+            nextBtn.innerHTML = '<i class="fas fa-check"></i> Finish Quiz';
+        } else {
+            nextBtn.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
+        }
+    }
+
+    /**
+     * Move to the next question or finish quiz
+     */
+    nextQuestion() {
+        if (this.currentQuestionIndex < this.totalQuestions - 1) {
+            this.currentQuestionIndex++;
+            this.displayQuestion();
+        } else {
+            this.finishQuiz();
+        }
+    }
+
+    /**
+     * Move to the previous question
+     */
     previousQuestion() {
         if (this.currentQuestionIndex > 0) {
             this.currentQuestionIndex--;
-            this.updateProgress();
-            this.updateNavigation();
+            this.displayQuestion();
         }
     }
-    
-    // Navigate to next question
-    nextQuestion() {
-        if (this.currentQuestionIndex < quizData.length - 1) {
-            this.currentQuestionIndex++;
-            this.updateProgress();
-            this.updateNavigation();
-        }
-    }
-    
-    // Submit the quiz
-    submitQuiz(event) {
-        event.preventDefault();
-        
-        // Validate that all questions are answered
-        if (!this.validateAnswers()) {
-            return;
-        }
-        
+
+    /**
+     * Finish the quiz and calculate results
+     */
+    finishQuiz() {
         this.calculateScore();
-        this.showResults();
-    }
-    
-    // Validate that all questions have been answered
-    validateAnswers() {
-        const unansweredQuestions = [];
+        this.hideAllScreens();
         
-        this.userAnswers.forEach((answer, index) => {
-            if (answer === null) {
-                unansweredQuestions.push(index + 1);
-            }
-        });
-        
-        if (unansweredQuestions.length > 0) {
-            this.showValidationMessage(`Please answer question${unansweredQuestions.length > 1 ? 's' : ''}: ${unansweredQuestions.join(', ')}`);
-            return false;
-        }
-        
-        return true;
-    }
-    
-    // Show validation message
-    showValidationMessage(message) {
-        this.elements.validationText.textContent = message;
-        this.elements.validationMessage.classList.remove('hidden');
-        
-        // Auto-hide after 3 seconds
         setTimeout(() => {
-            this.elements.validationMessage.classList.add('hidden');
-        }, 3000);
+            this.resultsScreen.classList.add('active');
+            this.displayResults();
+        }, 300);
     }
-    
-    // Calculate the final score
+
+    /**
+     * Calculate the final score
+     */
     calculateScore() {
         this.score = 0;
-        
-        this.userAnswers.forEach((userAnswer, index) => {
-            if (userAnswer === quizData[index].correctAnswer) {
+        this.userAnswers.forEach((answer, index) => {
+            if (answer === this.questions[index].correct) {
                 this.score++;
             }
         });
     }
-    
-    // Show quiz results
-    showResults() {
-        this.isQuizCompleted = true;
+
+    /**
+     * Display the results with animations
+     */
+    displayResults() {
+        const percentage = Math.round((this.score / this.totalQuestions) * 100);
         
-        this.elements.quizContainer.classList.add('hidden');
-        this.elements.resultsContainer.classList.remove('hidden');
+        // Update score display
+        document.getElementById('scoreText').textContent = `${this.score}/${this.totalQuestions}`;
+        document.getElementById('scorePercentage').textContent = `${percentage}%`;
         
-        // Display score
-        this.elements.scoreText.textContent = `${this.score}/${quizData.length}`;
-        
-        const percentage = Math.round((this.score / quizData.length) * 100);
-        this.elements.percentageText.textContent = `${percentage}%`;
-        
-        // Show performance feedback
-        this.showPerformanceFeedback(percentage);
-        
-        // Show detailed results
-        this.showDetailedResults();
-    }
-    
-    // Show performance feedback based on score
-    showPerformanceFeedback(percentage) {
-        let feedback = '';
-        let title = '';
+        // Update results icon and message based on performance
+        const resultsIcon = document.getElementById('resultsIcon');
+        const resultsTitle = document.getElementById('resultsTitle');
+        const resultsMessage = document.getElementById('resultsMessage');
         
         if (percentage >= 90) {
-            title = 'Outstanding Performance!';
-            feedback = 'Excellent work! You have demonstrated exceptional knowledge in this subject area. Your score shows mastery of the material.';
-        } else if (percentage >= 80) {
-            title = 'Great Job!';
-            feedback = 'Very good performance! You have a solid understanding of the topic with just a few areas for improvement.';
+            resultsIcon.innerHTML = '<i class="fas fa-trophy"></i>';
+            resultsIcon.className = 'results-icon excellent';
+            resultsTitle.textContent = 'Excellent Work!';
+            resultsMessage.textContent = 'Outstanding! You have mastered this topic.';
         } else if (percentage >= 70) {
-            title = 'Good Work!';
-            feedback = 'Good job! You have a decent grasp of the material, but there\'s room for improvement in some areas.';
-        } else if (percentage >= 60) {
-            title = 'Fair Performance';
-            feedback = 'You have basic knowledge of the subject, but consider reviewing the material to strengthen your understanding.';
+            resultsIcon.innerHTML = '<i class="fas fa-star"></i>';
+            resultsIcon.className = 'results-icon good';
+            resultsTitle.textContent = 'Great Job!';
+            resultsMessage.textContent = 'Well done! You have a good understanding of the material.';
+        } else if (percentage >= 50) {
+            resultsIcon.innerHTML = '<i class="fas fa-thumbs-up"></i>';
+            resultsIcon.className = 'results-icon fair';
+            resultsTitle.textContent = 'Good Effort!';
+            resultsMessage.textContent = 'Not bad! With a bit more study, you\'ll do even better.';
         } else {
-            title = 'Needs Improvement';
-            feedback = 'Consider studying the material more thoroughly. Don\'t worry - practice makes perfect! Try taking the quiz again after reviewing.';
+            resultsIcon.innerHTML = '<i class="fas fa-book"></i>';
+            resultsIcon.className = 'results-icon poor';
+            resultsTitle.textContent = 'Keep Learning!';
+            resultsMessage.textContent = 'Don\'t give up! Review the material and try again.';
         }
         
-        this.elements.performanceFeedback.innerHTML = `
-            <h4>${title}</h4>
-            <p>${feedback}</p>
+        // Generate score breakdown
+        this.generateScoreBreakdown();
+    }
+
+    /**
+     * Generate detailed score breakdown
+     */
+    generateScoreBreakdown() {
+        const scoreBreakdown = document.getElementById('scoreBreakdown');
+        const percentage = Math.round((this.score / this.totalQuestions) * 100);
+        
+        scoreBreakdown.innerHTML = `
+            <div class="breakdown-item">
+                <span class="breakdown-label">Questions Correct:</span>
+                <span class="breakdown-value">${this.score}</span>
+            </div>
+            <div class="breakdown-item">
+                <span class="breakdown-label">Questions Incorrect:</span>
+                <span class="breakdown-value">${this.totalQuestions - this.score}</span>
+            </div>
+            <div class="breakdown-item">
+                <span class="breakdown-label">Total Questions:</span>
+                <span class="breakdown-value">${this.totalQuestions}</span>
+            </div>
+            <div class="breakdown-item">
+                <span class="breakdown-label">Accuracy:</span>
+                <span class="breakdown-value">${percentage}%</span>
+            </div>
         `;
     }
-    
-    // Show detailed results for each question
-    showDetailedResults() {
-        this.elements.answerReview.innerHTML = '';
+
+    /**
+     * Show the review screen with detailed answers
+     */
+    showReviewScreen() {
+        this.hideAllScreens();
         
-        quizData.forEach((questionData, index) => {
+        setTimeout(() => {
+            this.reviewScreen.classList.add('active');
+            this.generateReviewContent();
+        }, 300);
+    }
+
+    /**
+     * Generate the review content showing all questions and answers
+     */
+    generateReviewContent() {
+        const reviewQuestions = document.getElementById('reviewQuestions');
+        reviewQuestions.innerHTML = '';
+        
+        this.questions.forEach((question, index) => {
             const userAnswer = this.userAnswers[index];
-            const isCorrect = userAnswer === questionData.correctAnswer;
+            const correctAnswer = question.correct;
+            const isCorrect = userAnswer === correctAnswer;
             
-            const resultItem = document.createElement('div');
-            resultItem.className = `answer-item ${isCorrect ? 'correct' : 'incorrect'}`;
+            const reviewDiv = document.createElement('div');
+            reviewDiv.className = 'review-question';
             
-            resultItem.innerHTML = `
-                <div class="question-text">Question ${index + 1}: ${questionData.question}</div>
-                <div class="answer-info">
-                    <div class="user-answer">Your answer: ${questionData.options[userAnswer]}</div>
-                    <div class="correct-answer">Correct answer: ${questionData.options[questionData.correctAnswer]}</div>
-                    <div class="status ${isCorrect ? 'correct' : 'incorrect'}">
-                        ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
-                    </div>
-                    ${questionData.explanation ? `<div class="explanation"><strong>Explanation:</strong> ${questionData.explanation}</div>` : ''}
+            reviewDiv.innerHTML = `
+                <h4>Question ${index + 1}: ${question.question}</h4>
+                <div class="review-answer user-selected">
+                    Your answer: ${question.options[userAnswer] || 'No answer selected'}
                 </div>
+                <div class="review-answer correct">
+                    Correct answer: ${question.options[correctAnswer]}
+                </div>
+                ${!isCorrect ? `<div class="review-answer incorrect">
+                    ❌ Incorrect
+                </div>` : `<div class="review-answer correct">
+                    ✅ Correct
+                </div>`}
+                <p style="margin-top: 1rem; color: #666; font-style: italic;">
+                    ${question.explanation}
+                </p>
             `;
             
-            this.elements.answerReview.appendChild(resultItem);
+            reviewQuestions.appendChild(reviewDiv);
         });
     }
-    
-    // Restart the quiz
+
+    /**
+     * Show the results screen
+     */
+    showResultsScreen() {
+        this.hideAllScreens();
+        
+        setTimeout(() => {
+            this.resultsScreen.classList.add('active');
+        }, 300);
+    }
+
+    /**
+     * Restart the quiz from the beginning
+     */
     restartQuiz() {
+        // Reset all quiz state
         this.currentQuestionIndex = 0;
         this.userAnswers = [];
         this.score = 0;
-        this.isQuizStarted = false;
-        this.isQuizCompleted = false;
         
-        // Clear any selected answers
-        const radioInputs = document.querySelectorAll('input[type="radio"]');
-        radioInputs.forEach(input => {
-            input.checked = false;
-        });
-        
-        // Remove visual selection indicators
-        const selectedOptions = document.querySelectorAll('.option.selected');
-        selectedOptions.forEach(option => {
-            option.classList.remove('selected');
-        });
-        
-        this.showInstructions();
+        // Show welcome screen
+        this.showWelcomeScreen();
+    }
+
+    /**
+     * Hide all screens for smooth transitions
+     */
+    hideAllScreens() {
+        this.welcomeScreen.classList.remove('active');
+        this.quizScreen.classList.remove('active');
+        this.resultsScreen.classList.remove('active');
+        this.reviewScreen.classList.remove('active');
     }
 }
 
-// Initialize the quiz application when the DOM is loaded
+/**
+ * Initialize the quiz application when DOM is loaded
+ */
 document.addEventListener('DOMContentLoaded', () => {
-    new QuizApp();
+    // Add initial loading animation
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.6s ease';
+    
+    setTimeout(() => {
+        document.body.style.opacity = '1';
+        
+        // Initialize the quiz application
+        const quizApp = new QuizApp();
+        
+        // Add some console messages for developers
+        console.log('🎯 Interactive Quiz Application Loaded');
+        console.log('📚 Total Questions:', quizApp.totalQuestions);
+        console.log('✨ Features: Gradient styling, smooth transitions, dynamic questions');
+        
+    }, 100);
 });
 
-// Additional utility functions
-
-// Function to shuffle array (for future randomization features)
-function shuffleArray(array) {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-}
-
-// Function to format time (for future timer features)
-function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
-
-// Function to save quiz state to localStorage (for future persistence features)
-function saveQuizState(quizApp) {
-    const state = {
-        currentQuestionIndex: quizApp.currentQuestionIndex,
-        userAnswers: quizApp.userAnswers,
-        isQuizStarted: quizApp.isQuizStarted,
-        timestamp: Date.now()
-    };
-    localStorage.setItem('quizState', JSON.stringify(state));
-}
-
-// Function to load quiz state from localStorage (for future persistence features)
-function loadQuizState() {
-    const savedState = localStorage.getItem('quizState');
-    if (savedState) {
-        try {
-            const state = JSON.parse(savedState);
-            // Check if the saved state is not too old (e.g., 24 hours)
-            const maxAge = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-            if (Date.now() - state.timestamp < maxAge) {
-                return state;
+/**
+ * Add keyboard navigation support
+ */
+document.addEventListener('keydown', (event) => {
+    const activeScreen = document.querySelector('.welcome-screen.active, .quiz-screen.active, .results-screen.active, .review-screen.active');
+    
+    if (!activeScreen) return;
+    
+    // Number keys for answer selection (only in quiz screen)
+    if (activeScreen.classList.contains('quiz-screen')) {
+        const num = parseInt(event.key);
+        if (num >= 1 && num <= 4) {
+            const answerOptions = document.querySelectorAll('.answer-option');
+            if (answerOptions[num - 1]) {
+                answerOptions[num - 1].click();
             }
-        } catch (error) {
-            console.error('Error loading quiz state:', error);
+        }
+        
+        // Arrow keys for navigation
+        if (event.key === 'ArrowRight' || event.key === 'Enter') {
+            const nextBtn = document.getElementById('nextBtn');
+            if (!nextBtn.disabled) {
+                nextBtn.click();
+            }
+        }
+        
+        if (event.key === 'ArrowLeft') {
+            const prevBtn = document.getElementById('prevBtn');
+            if (!prevBtn.disabled) {
+                prevBtn.click();
+            }
         }
     }
-    return null;
+    
+    // Enter key for starting quiz
+    if (activeScreen.classList.contains('welcome-screen') && event.key === 'Enter') {
+        document.getElementById('startQuiz').click();
+    }
+});
+
+/**
+ * Add smooth scrolling and focus management
+ */
+function smoothScrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
 }
 
-// Export for potential module usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { QuizApp, quizData, shuffleArray, formatTime };
-}
+// Scroll to top when switching screens
+document.addEventListener('DOMContentLoaded', () => {
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                const target = mutation.target;
+                if (target.classList.contains('active')) {
+                    smoothScrollToTop();
+                }
+            }
+        });
+    });
+    
+    // Observe all screen elements
+    const screens = document.querySelectorAll('.welcome-screen, .quiz-screen, .results-screen, .review-screen');
+    screens.forEach(screen => {
+        observer.observe(screen, { attributes: true });
+    });
+});
