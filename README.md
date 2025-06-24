@@ -69,3 +69,30 @@ This is a web-based interactive quiz application built with vanilla HTML, CSS, a
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+
+## Preview
+
+
+![Screenshot 2025-06-24 161958](https://github.com/user-attachments/assets/3eaa15bd-ad7a-4e89-b24b-f8e38b5a9756)
+
+
+
+
+![Screenshot 2025-06-24 162354](https://github.com/user-attachments/assets/e018b3c7-f0ad-4466-81ab-4e7878ec5a77)
+
+
+
+
+![Screenshot 2025-06-24 162425](https://github.com/user-attachments/assets/f7e4546d-001f-4bb8-8f0f-c9134f279b11)
+
+
+
+
+![Screenshot 2025-06-24 162526](https://github.com/user-attachments/assets/368e33de-1ff6-4f86-9e34-2f8df05ac23f)
+
+
+
+
+
+![Screenshot 2025-06-24 162553](https://github.com/user-attachments/assets/3a18938b-6a3a-4f52-bb6a-e35e2e2e478d)
+
