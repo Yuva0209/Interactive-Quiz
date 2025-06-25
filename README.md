@@ -7,7 +7,7 @@ This is a web-based interactive quiz application built with HTML, CSS, and JavaS
 ## System Architecture
 
 ### Frontend Architecture
-- **Technology Stack**: Vanilla HTML5, CSS3, and JavaScript (ES6+)
+- **Technology Stack**: HTML5, CSS3, and JavaScript (ES6+)
 - **Design Pattern**: Component-based architecture using JavaScript classes
 - **Styling**: CSS Grid and Flexbox layouts with modern gradient designs
 - **Responsive Design**: Mobile-first approach with viewport meta tag optimization
