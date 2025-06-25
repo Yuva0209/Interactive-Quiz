@@ -23,7 +23,7 @@ This is a web-based interactive quiz application built with HTML, CSS, and JavaS
 3. **Quiz Screen**: Interactive question display with progress tracking
 4. **Results Screen**: Score display and performance summary
 5. **Review Screen**: Detailed answer review with explanations
-6. 
+
 
 ### Quiz Features
 - Dynamic question bank with explanations
